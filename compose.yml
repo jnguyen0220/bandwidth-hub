@@ -1,0 +1,31 @@
+version: '3.5'
+services:
+    Earnapp:
+        image: fazalfarhan01/earnapp:lite
+        volumes:
+            - /sys/fs/cgroup:/sys/fs/cgroup:ro
+            - earnapp-data:/etc/earnapp
+        environment: 
+            EARNAPP_UUID: $EARNAPP_UUID
+        privileged: true
+        restart: always
+        network_mode: host
+    IproyalPawns:
+        image: iproyal/pawns-cli
+        command: -email=$IPROYALPAWNS_EMAIL -password='$IPROYALPAWNS_PASSWD' -device-name=$DEVICE_NAME -accept-tos
+        restart: always
+        network_mode: host
+    Peer2profit:
+        image: peer2profit/peer2profit_linux
+        restart: always
+        network_mode: host
+        environment:
+            - P2P_EMAIL=$PEER2PROFIT_EMAIL
+    Honeygain:
+        image: honeygain/honeygain
+        command: -tou-accept -email $PEER2PROFIT_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
+        restart: always
+        network_mode: host
+volumes:
+    portainer_data:
+    earnapp-data:
