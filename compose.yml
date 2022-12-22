@@ -23,6 +23,7 @@ services:
             - P2P_EMAIL=$IPROYALPAWNS_EMAIL
     Honeygain:
         image: honeygain/honeygain
+        platform: linux/amd64
         command: -tou-accept -email $IPROYALPAWNS_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
         restart: always
         network_mode: host
