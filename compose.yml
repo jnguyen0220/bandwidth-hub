@@ -20,12 +20,19 @@ services:
         restart: always
         network_mode: host
         environment:
-            - P2P_EMAIL=$PEER2PROFIT_EMAIL
+            - P2P_EMAIL=$IPROYALPAWNS_EMAIL
     Honeygain:
         image: honeygain/honeygain
-        command: -tou-accept -email $PEER2PROFIT_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
+        command: -tou-accept -email $IPROYALPAWNS_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
         restart: always
         network_mode: host
+    Repocket:
+        image: repocket/repocket:latest
+        restart: always
+        network_mode: host
+        environment:
+          - RP_EMAIL=$IPROYALPAWNS_EMAIL
+          - RP_PASSWORD=$IPROYALPAWNS_PASSWD
 volumes:
     portainer_data:
     earnapp-data:
