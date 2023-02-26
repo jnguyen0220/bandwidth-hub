@@ -33,7 +33,7 @@ services:
         network_mode: host
         environment:
           - RP_EMAIL=$IPROYALPAWNS_EMAIL
-          - RP_PASSWORD=$IPROYALPAWNS_PASSWD
+          - RP_API_KEY=$RP_API_KEY
     TraffMonetizer:
         container_name: traffmonetizer
         image: traffmonetizer/cli:latest
