@@ -41,7 +41,7 @@ services:
             default:
                 ipv4_address: 172.106.0.50
     TraffMonetizer:
-        image: traffmonetizer/cli:latest
+        image: traffmonetizer/cli:arm64v8
         command: start accept status --token $TM_TOKEN --device-name $DEVICE_NAME
         restart: always
         networks:
