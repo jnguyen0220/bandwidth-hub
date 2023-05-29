@@ -2,46 +2,54 @@ version: '3.5'
 services:
     Earnapp:
         image: fazalfarhan01/earnapp:lite
-        volumes:
-            - /sys/fs/cgroup:/sys/fs/cgroup:ro
-            - earnapp-data:/etc/earnapp
         environment: 
-            EARNAPP_UUID: $EARNAPP_UUID
-        privileged: true
+            - EARNAPP_UUID=$EARNAPP_UUID
         restart: always
-        network_mode: host
+        networks:
+            default:
+                ipv4_address: 172.106.0.10
     IproyalPawns:
-        image: iproyal/pawns-cli
-        command: -email=$IPROYALPAWNS_EMAIL -password='$IPROYALPAWNS_PASSWD' -device-name=$DEVICE_NAME -accept-tos
+        image: iproyal/pawns-cli:latest
+        command: -email=$IPROYALPAWNS_EMAIL -password=$IPROYALPAWNS_PASSWD -device-name=$DEVICE_NAME -accept-tos
         restart: always
-        network_mode: host
+        networks:
+            default:
+                ipv4_address: 172.106.0.20
     Peer2profit:
-        image: peer2profit/peer2profit_linux
-        restart: always
-        network_mode: host
+        image: peer2profit/peer2profit_linux:latest
         environment:
             - P2P_EMAIL=$IPROYALPAWNS_EMAIL
+        restart: always
+        networks:
+            default:
+                ipv4_address: 172.106.0.30
     Honeygain:
         image: honeygain/honeygain
-        platform: linux/amd64
         command: -tou-accept -email $IPROYALPAWNS_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
         restart: always
-        network_mode: host
+        networks:
+            default:
+                ipv4_address: 172.106.0.40
     Repocket:
         image: repocket/repocket:latest
-        restart: always
-        network_mode: host
         environment:
           - RP_EMAIL=$IPROYALPAWNS_EMAIL
           - RP_API_KEY=$RP_API_KEY
+        restart: always
+        networks:
+            default:
+                ipv4_address: 172.106.0.50
     TraffMonetizer:
-        container_name: traffmonetizer
         image: traffmonetizer/cli:latest
-        environment:
-          - TRAFFMONETIZER_DUMMY=''
         command: start accept status --token $TM_TOKEN --device-name $DEVICE_NAME
         restart: always
-        network_mode: host
-volumes:
-    portainer_data:
-    earnapp-data:
+        networks:
+            default:
+                ipv4_address: 172.106.0.60
+networks:
+    default:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.106.0.0/16
