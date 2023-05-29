@@ -25,6 +25,7 @@ services:
                 ipv4_address: 172.106.0.30
     Honeygain:
         image: honeygain/honeygain
+        platform: linux/amd64
         command: -tou-accept -email $IPROYALPAWNS_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
         restart: always
         networks:
