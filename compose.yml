@@ -1,56 +1,47 @@
-version: '3.5'
 services:
+    emulator:
+      image: tonistiigi/binfmt
+      container_name: emulator
+      privileged: true
+      command: --install all
+      network_mode: bridge
+      restart: "no"
     Earnapp:
-        image: fazalfarhan01/earnapp:lite
-        environment: 
-            - EARNAPP_UUID=$EARNAPP_UUID
-        restart: always
-        networks:
-            default:
-                ipv4_address: 172.106.0.10
+      image: fazalfarhan01/earnapp:lite
+      environment:
+      - EARNAPP_UUID=$EARNAPP_UUID
+      restart: always
+      networks:
+        default:
+          ipv4_address: 172.106.0.10
     IproyalPawns:
-        image: iproyal/pawns-cli:latest
-        command: -email=$IPROYALPAWNS_EMAIL -password=$IPROYALPAWNS_PASSWD -device-name=$DEVICE_NAME -accept-tos
-        restart: always
-        networks:
-            default:
-                ipv4_address: 172.106.0.20
-    Peer2profit:
-        image: peer2profit/peer2profit_linux:latest
-        environment:
-            - P2P_EMAIL=$IPROYALPAWNS_EMAIL
-        restart: always
-        networks:
-            default:
-                ipv4_address: 172.106.0.30
+      image: iproyal/pawns-cli:latest
+      command: -email=$IPROYALPAWNS_EMAIL -password=$IPROYALPAWNS_PASSWD -device-name=$DEVICE_NAME -accept-tos
+      restart: always
+      networks:
+        default:
+          ipv4_address: 172.106.0.20
     Honeygain:
-        image: honeygain/honeygain
-        platform: linux/amd64
-        command: -tou-accept -email $IPROYALPAWNS_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
-        restart: always
-        networks:
-            default:
-                ipv4_address: 172.106.0.40
+      image: honeygain/honeygain
+      platform: linux/amd64
+      command: -tou-accept -email $IPROYALPAWNS_EMAIL -pass $IPROYALPAWNS_PASSWD -device $DEVICE_NAME
+      restart: always
+      networks:
+        default:
+          ipv4_address: 172.106.0.40
     Repocket:
-        image: repocket/repocket:latest
-        environment:
-          - RP_EMAIL=$IPROYALPAWNS_EMAIL
-          - RP_API_KEY=$RP_API_KEY
-        restart: always
-        networks:
-            default:
-                ipv4_address: 172.106.0.50
-    TraffMonetizer:
-        image: traffmonetizer/cli:latest
-        command: start accept status --token $TM_TOKEN --device-name $DEVICE_NAME
-        restart: always
-        networks:
-            default:
-                ipv4_address: 172.106.0.60
+      image: repocket/repocket:latest
+      environment:
+      - RP_EMAIL=$IPROYALPAWNS_EMAIL
+      - RP_API_KEY=$RP_API_KEY
+      restart: always
+      networks:
+        default:
+          ipv4_address: 172.106.0.50
 networks:
-    default:
-        driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: 172.106.0.0/16
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.106.0.0/16
